@@ -1,0 +1,65 @@
+.shoppingListSection{
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.shoppingList{
+    display: flex;
+    width: 300px;
+    height: 300px;
+    margin: 12px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    overflow-wrap: break-word;
+    word-break: break-all; 
+    border-radius: 8px;
+    color: rgb(44, 98, 107);
+    text-decoration: none;
+}
+
+.red{
+    background-color: rgba(255, 158, 158, 0.4);
+    border: solid #f6b1b1;
+}
+
+.blue{
+    background-color: rgba(210, 248, 254, .4);
+    border: solid #aef4ff;
+}
+
+.green{
+    background-color: #88e5a366;
+    border: solid #98efb1;
+}
+
+.orange{
+    background-color: #eab38266;
+    border: solid #f7b079;
+}
+.dark-blue{
+    background-color: #87a1ee66;
+    border: solid #6985f4;
+}
+
+.teal {
+    background-color: rgba(0, 128, 128, 0.4); /* Light teal background */
+    border: solid #008080; /* Darker teal border */
+}
+
+.pink {
+    background-color: rgba(255, 192, 203, 0.4); /* Light pink background */
+    border: solid #ff69b4; /* Brighter pink border */
+}
+
+.yellow {
+    background-color: rgba(255, 255, 0, 0.4); /* Light yellow background */
+    border: solid #ffd700; /* Gold-like yellow border */
+}
+
+.purple {
+    background-color: rgba(216, 191, 216, 0.4); /* Light purple background */
+    border: solid #9370db; /* Darker purple border */
+}

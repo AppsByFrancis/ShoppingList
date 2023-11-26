@@ -1,0 +1,30 @@
+.navbar{
+    display: flex;
+    width: 100vw;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+    border: solid #d2f8fe;
+}
+
+.createList{
+    margin-left: auto;
+    margin-right: 20px;
+    height: 44px;
+    padding: 4px;
+    color: rgb(44, 98, 107);
+    background-color: #FFFFFF;
+    border: solid #d2f8fe;
+    border-radius: 4px;
+    transition: .4s;
+    background-color: rgba(210, 248, 254, .4);
+  }
+
+
+  .logo{
+    margin-left: 10px;
+  }
+
+  button:hover{
+    background-color: rgba(115, 236, 255, 0.4);
+  }

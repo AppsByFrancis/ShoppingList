@@ -1,0 +1,44 @@
+.detailSection{
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    border: solid black;
+    padding: 60px;
+}
+
+.detailList{
+    border: solid black;
+    width: 400px;
+    min-height: 400px;
+    margin: auto;
+    padding: 30px;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-wrap: break-word;
+}
+
+.nameAndInputItem{
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.name{
+    margin-left: 70px;
+}
+input{
+    margin-right: 10px;
+    height: 32px;
+    padding: 4px;
+}
+button{
+    height: 44px;
+    padding: 4px;
+    transition: .4s;
+    color: rgb(44, 98, 107);
+    background-color: rgba(210, 248, 254, .4);
+    border: solid #d2f8fe;
+    border-radius: 4px;
+}
