@@ -10,13 +10,19 @@ const ListDetail = ({value, setShoppingList, route}) => {
     const [isEditting, setIsEditting] = useState(false);
 
     const addItemToList = (event) => {
-        event.preventDefault();
-        const item = {
-            id: Math.floor(Math.random() * 1000),
-            item: itemInput,
-        };
-
-        setItem(prevItems => [...prevItems, item]);
+        if(!itemInput){
+            event.preventDefault();
+            alert("Please, enter an Item!")
+            return
+        } else {
+            event.preventDefault();
+            const item = {
+                id: Math.floor(Math.random() * 1000),
+                item: itemInput,
+            };
+    
+            setItem(prevItems => [...prevItems, item]);
+        }
     };
 
     const handleInputChange = (event) => {
