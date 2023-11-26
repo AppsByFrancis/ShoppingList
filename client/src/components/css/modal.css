@@ -20,6 +20,8 @@
     position: absolute;
     top: 10px;
     right: 10px;
+    background-color: rgba(255, 158, 158, 0.4);
+    border: solid #f6b1b1;
 }
 
 input{

@@ -1,10 +1,13 @@
 import '../css/detail.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { back } from '../../assets';
 
-const ListDetail = ({value, route}) => {
+const ListDetail = ({value, setShoppingList, route}) => {
     const [itemInput, setItemInput] = useState("");
+    const [nameInput, setNameInput] = useState("");
     const [item, setItem] = useState([]);
+    const [isEditting, setIsEditting] = useState(false);
 
     const addItemToList = (event) => {
         event.preventDefault();
@@ -27,25 +30,44 @@ const ListDetail = ({value, route}) => {
 
     }
 
+    const handleEdit = () => {
+        if(isEditting && nameInput){
+            setIsEditting(false)
+            let newArr = item.filter(i => `/list/${i.id}` !== route)
+            let selectedItem = value.find(item => `/list/${item.id}` === route);
+            selectedItem.name = nameInput
+            setShoppingList([...newArr, selectedItem])
+        } else if(isEditting){
+            setIsEditting(false)
+        } else {
+            setIsEditting(true)
+        }
+    }
+
+    const handleNameChange = (event) => {
+        setNameInput(event.target.value)
+    }
+
     return(
         <section className="detailSection">
-            <Link to='/'>back</Link>
+            <Link to='/'><img src={back}/></Link>
             <ul className="detailList">
                 <div className='nameAndInputItem'>
-                    <h2>{selectedItem ? selectedItem.name : 'Item not found'}</h2>
-                    <form onSubmit={addItemToList} id="searchBar" className="name">
+                    <button onClick={handleEdit} className='editButton'>{!isEditting ? "Edit" : "Change"}</button>
+                    {!isEditting ? <h2>{selectedItem ? selectedItem.name : 'Item not found'}</h2> : <input onChange={handleNameChange} value={nameInput} placeholder="Select a new Name..."/>}
+                    <form onSubmit={addItemToList} className="form name" >
                         <input
                             id="searchQueryInput"
                             name="searchQueryInput"
                             type="text"
                             value={itemInput}
                             onChange={handleInputChange}
-                            placeholder="Select a new Name..."
+                            placeholder="Add an item..."
                             className="pr-8"
                         />
                         <button
                             id="searchQuerySubmit"
-                            className="button"
+                            className="submitButton"
                             type="submit"
                             name="searchQuerySubmit"
                         >
@@ -57,9 +79,9 @@ const ListDetail = ({value, route}) => {
                 <div>
                     {item.map(i => {
                         return(
-                            <div key={i.id}>
-                                <li>{i.item}</li>
-                                <button onClick={() => {
+                            <div className='item-and-button' key={i.id}>
+                                <li className='listItem'>{i.item}</li>
+                                <button className='removeButton' onClick={() => {
                                     removeItem(i.id)
                                 }}>remove</button>
                             </div>

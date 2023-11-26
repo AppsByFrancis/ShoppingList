@@ -1,22 +1,26 @@
 .detailSection{
-    box-sizing: border-box;
     width: 100vw;
-    height: 100vh;
-    border: solid black;
+    min-height: 100vh;
     padding: 60px;
+    background-color: #87a1ee66;
+    box-sizing: border-box;
 }
 
 .detailList{
-    border: solid black;
-    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 400px;
+    max-width: 600px;
     min-height: 400px;
     margin: auto;
     padding: 30px;
     font-size: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border: solid #a6f3ff;
+    border-radius: 8px;
     overflow-wrap: break-word;
+    background-color: rgba(210, 248, 254, .4);
+    color: rgb(44, 98, 107);
 }
 
 .nameAndInputItem{
@@ -26,7 +30,7 @@
 }
 
 .name{
-    margin-left: 70px;
+    margin-left: 20px;
 }
 input{
     margin-right: 10px;
@@ -41,4 +45,31 @@ button{
     background-color: rgba(210, 248, 254, .4);
     border: solid #d2f8fe;
     border-radius: 4px;
+}
+
+.item-and-button{
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.listItem{
+    margin-right: 12px;
+}
+
+.editButton{
+    margin-right: 12px;
+    background-color: rgba(255, 255, 0, 0.4);
+    border: solid #ffd700;
+}
+.removeButton{
+    background-color: rgba(255, 158, 158, 0.4);
+    border: solid #f6b1b1;
+}
+.submitButton{
+    background-color: #88e5a366;
+    border: solid #98efb1;
+}
+.form{
+    display: flex;
 }

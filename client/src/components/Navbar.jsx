@@ -1,6 +1,7 @@
 import './css/navbar.css'
 import { useState, createContext } from 'react';
 import CreateModal from './createModal';
+import { logo } from '../assets';
 
 export const CloseButtonContext = createContext();
 const Navbar = () => {
@@ -10,7 +11,7 @@ const Navbar = () => {
         <CloseButtonContext.Provider value={[isCreating, setIsCreating]}>
             {isCreating && <CreateModal/>}
             <div className="navbar">
-                <div className='logo'>logo</div>
+                <img className="logo" src={logo}/>
                 <button className='createList' onClick={() => setIsCreating(true)}>
                     Create Button
                 </button>

@@ -17,7 +17,7 @@ const App = () => {
                 } />
               {shoppingList.map(item => {
                 return(
-                  <Route key={item.id} path={`/list/${item.id}`}  element={<ListDetail value={shoppingList} route={`/list/${item.id}`}/>} />
+                  <Route key={item.id} path={`/list/${item.id}`}  element={<ListDetail value={shoppingList} setShoppingList={setShoppingList} route={`/list/${item.id}`}/>} />
                   )
                 })}
             </Routes>

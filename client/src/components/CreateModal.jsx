@@ -18,7 +18,7 @@ const CreateModal = () => {
             alert("Please, enter an item")
             return
         }
-        const list = {
+        let list = {
             id: Math.floor(Math.random() * 1000),
             name: listNameInput,
             index: Math.floor(Math.random() * 9)
@@ -54,7 +54,7 @@ const CreateModal = () => {
               />
               <button
                 id="searchQuerySubmit"
-                className="button"
+                className="submitButton"
                 type="submit"
                 name="searchQuerySubmit"
               >

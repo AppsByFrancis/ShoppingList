@@ -4,7 +4,7 @@
     height: 80px;
     align-items: center;
     justify-content: center;
-    border: solid #d2f8fe;
+    border: solid rgb(179, 198, 255);
 }
 
 .createList{
@@ -23,6 +23,11 @@
 
   .logo{
     margin-left: 10px;
+    height: 70%;
+  }
+
+  button{
+    cursor: pointer;
   }
 
   button:hover{
