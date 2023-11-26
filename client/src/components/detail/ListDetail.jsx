@@ -39,10 +39,11 @@ const ListDetail = ({value, setShoppingList, route}) => {
     const handleEdit = () => {
         if(isEditting && nameInput){
             setIsEditting(false)
-            let newArr = item.filter(i => `/list/${i.id}` !== route)
+            let newArr = value.filter(i => `/list/${i.id}` !== route)
             let selectedItem = value.find(item => `/list/${item.id}` === route);
             selectedItem.name = nameInput
             setShoppingList([...newArr, selectedItem])
+            console.log(value)
         } else if(isEditting){
             setIsEditting(false)
         } else {
