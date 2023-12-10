@@ -9,7 +9,7 @@ const Navbar = () => {
 
     return (
         <CloseButtonContext.Provider value={[isCreating, setIsCreating]}>
-            {isCreating && <CreateModal/>}
+            {isCreating && <CreateModal />}
             <div className="navbar">
                 <img className="logo" src={logo}/>
                 <button className='createList' onClick={() => setIsCreating(true)}>

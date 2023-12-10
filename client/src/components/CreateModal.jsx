@@ -11,19 +11,32 @@ const CreateModal = () => {
     const [opacity, setOpacity] = useState(0);
     const [top, setTop] = useState(0);
 
-    const createList = (event) => {
+    const createList = async(event) => {
       event.preventDefault();
       
         if(!listNameInput){
             alert("Please, enter an item")
             return
         }
-        let list = {
-            id: Math.floor(Math.random() * 1000),
+        let newList = {
+            id: shoppingList.length,
             name: listNameInput,
-            index: Math.floor(Math.random() * 9)
+            colorIndex: Math.floor(Math.random() * 9),
+            listItems: []
+
           };
-        setShoppingList((oldList) => [...oldList, list]);
+        
+          
+        await fetch('http://127.0.0.1:8000/shoppingLists',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(newList)
+        }
+        )
+        setShoppingList((oldList) => [...oldList, newList]);
         setIsCreating(false)
     }
 

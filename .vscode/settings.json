@@ -1,0 +1,14 @@
+{
+	"prettier.bracketSpacing": false,
+	"prettier.enableDebugLogs": true,
+	"prettier.printWidth": 120,
+	"prettier.requirePragma": true,
+	"prettier.semi": true,
+	"prettier.useTabs": true,
+	"prettier.tabWidth": 4,
+	"prettier.singleQuote": true,
+	"prettier.singleAttributePerLine": true,
+	"prettier.enable": true,
+	"prettier.bracketSameLine": false,
+	"prettier.jsxSingleQuote": true
+}

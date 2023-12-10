@@ -1,4 +1,10 @@
 .detailSection{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     width: 100vw;
     min-height: 100vh;
     padding: 60px;
@@ -9,11 +15,10 @@
 .detailList{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-width: 400px;
+    /* align-items: center; */
     max-width: 600px;
     min-height: 400px;
-    margin: auto;
+    /* margin: auto; */
     padding: 30px;
     font-size: 24px;
     border: solid #a6f3ff;
@@ -21,6 +26,12 @@
     overflow-wrap: break-word;
     background-color: rgba(210, 248, 254, .4);
     color: rgb(44, 98, 107);
+}
+
+.backButton{
+    position: absolute;
+    top: 16px;
+    left: 16px;
 }
 
 .nameAndInputItem{
@@ -62,7 +73,7 @@ button{
     background-color: rgba(255, 255, 0, 0.4);
     border: solid #ffd700;
 }
-.removeButton{
+.removeButton2{
     background-color: rgba(255, 158, 158, 0.4);
     border: solid #f6b1b1;
 }
@@ -72,4 +83,12 @@ button{
 }
 .form{
     display: flex;
+}
+
+@media only screen and (min-width: 576px) {
+    .nameAndInputItem{
+        display: flex;
+        align-items: center;
+        margin-bottom: 32px;
+    }
 }
