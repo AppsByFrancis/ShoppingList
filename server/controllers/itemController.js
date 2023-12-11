@@ -10,7 +10,6 @@ exports.addItem = async (req, res) => {
         const url = req.body.locationUrl.pathname;
         const urlId = url.match(/\d+/g);
 
-        // Convert urlId to Number if necessary
         const idToFind = Number(urlId[0]);
 
         shoppingLists.forEach(obj => {
@@ -24,7 +23,6 @@ exports.addItem = async (req, res) => {
                 status: "success",
             })
         });
-
     } catch (err) {
         console.error(err)
     }
@@ -34,20 +32,22 @@ exports.deleteItem = async (req, res) => {
     try {
         const url = req.body.pathname
         const urlId = url.match(/\d+/g);
+        const itemId = req.params.id.match(/\d+/g)
 
         let list = shoppingLists.find(list => list.id == Number(urlId));
+        let removeOldItem = shoppingLists.filter(list => list.id !== Number(urlId));
         if (list) {
-            list.listItems = list.listItems.filter(item => item.id !== req.params);
+            list.listItems = list.listItems.filter(item => item.id !== Number(itemId))
+            removeOldItem.push(list)
         }
-
-        fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(list), err => {
+        fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(removeOldItem), err => {
             res.status(202).json({
-                statsu: "successfully deleted",
-                data: null
+                status: "successfully deleted",
+                data: {
+                    list
+                }
             })
         })
-
-
     } catch (err) {
         console.error(err)
     }

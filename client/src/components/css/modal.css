@@ -13,6 +13,7 @@
     border-radius: 8px;
     transition: opacity 1s, top .4s;
     background-color: rgba(210, 248, 254, .6);
+    z-index: 4;
 
 }
 

@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: center;
     border: solid rgb(179, 198, 255);
+    box-sizing: border-box;
 }
 
 .createList{

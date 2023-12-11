@@ -29,7 +29,6 @@ const ShoppingList = () => {
 
     const removeItem = async(itemId) => {
         let filteredList = shoppingList.filter(item => item.id !== itemId);
-        console.log(filteredList)
 
         await fetch(`http://127.0.0.1:8000/shoppingLists/:${itemId}`,
             {

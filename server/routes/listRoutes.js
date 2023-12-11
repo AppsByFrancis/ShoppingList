@@ -13,6 +13,7 @@ router
     .route("/:id")
     .get(listController.getList)
     .delete(listController.deleteShoppingList)
+    .patch(listController.changeName)
 
 
 

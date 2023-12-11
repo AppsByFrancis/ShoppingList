@@ -19,7 +19,6 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
         setItem(prev => [...selectedItem.listItems])
         const getListItem = async() => {
             try {
-                console.log(selectedItem)
                 const response = await fetch(`http://127.0.0.1:8000/shoppingLists/:${urlId}`); 
                 if (response.ok) {
                     const jsonResponse = await response.json();
@@ -64,7 +63,6 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                 metadata: "none"
                 
             })
-            console.log(locationUrl)
             setItem(prevItems => [...prevItems, newItem]);
         }
     };
@@ -85,18 +83,30 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
           })
         
         let newArr = item.filter(i => i.id !== itemId)
-        setItem(newArr)
+        setItem([...newArr])
         
     }
     
-    const handleEdit = () => {
+    const handleEdit = async() => {
         if(isEditting && nameInput){
+             await fetch(`http://127.0.0.1:8000/shoppingLists/:${urlId}`,
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: nameInput && JSON.stringify({ name: nameInput })
+            })
+
+            setShoppingList(prev => {
+                return prev.map(obj => {
+                    if (obj.id === Number(urlId)) {
+                        return { ...obj, name: nameInput };
+                    }
+                    return obj;
+                });
+            });
             setIsEditting(false)
-            let newArr = shoppingList.filter(i => i.id !== urlId)
-            let selectedItem = shoppingList.find(i => i.id === urlId);
-            selectedItem.name = nameInput
-            setShoppingList([...newArr, selectedItem])
-            console.log(shoppingList)
         } else if(isEditting){
             setIsEditting(false)
         } else {

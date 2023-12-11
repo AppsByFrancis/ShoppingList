@@ -31,34 +31,82 @@ exports.getAllShoppingLists = (req, res) => {
 };
 
 exports.createShoppingList = (req, res) => {
-    const newId = shoppingLists.length * 1;
-    const newShoppingList = Object.assign({id: newId}, req.body)
-
-    shoppingLists.push(newShoppingList)
-
-    fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(shoppingLists), err => {
-        res.status(201).json({
-            status: "success",
-            data: newShoppingList
+    try {
+        const newId = shoppingLists.length * 1;
+        const newShoppingList = Object.assign({id: newId}, req.body)
+    
+        shoppingLists.push(newShoppingList)
+    
+        fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(shoppingLists), err => {
+            res.status(201).json({
+                status: "success",
+                data: newShoppingList
+            });
         });
-    });
-
+    } catch (err) {
+        console.error(err)
+    }
 };
 
 exports.deleteShoppingList = (req, res) => {
-    const urlId = req.params.id;
-    const listToDelete = urlId.match(/\d+/g)
+    try {
+        const urlId = req.params.id;
+        const listToDelete = Number(urlId.match(/\d+/g));
+        const newShoppingList = shoppingLists.filter(item => item.id !== Number(listToDelete));
 
-    console.log(listToDelete)
+        fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(newShoppingList), err => {
+            res.status(202).json({
+                statsu: "successfully deleted",
+                data: null
+            });
+        });
+    } catch (err) {
+        console.error(err)
+    }
+};
 
-    const newShoppingList = shoppingLists.filter(item => item.id !== Number(listToDelete));
-    console.log(JSON.stringify(newShoppingList))
+exports.changeName = (req, res) => {
+    try {
+        const urlId = req.params.id;
+        const listToRename = Number(urlId.match(/\d+/g));
+        const newName = req.body.name;
 
-    fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(newShoppingList), err => {
-        res.status(202).json({
-            statsu: "successfully deleted",
-            data: null
-        })
-    })
-    // console.log(listToDelete)
-}
+        let isFound = false;
+        shoppingLists.forEach(obj => {
+            if (obj.id === listToRename) {
+                obj.name = newName;
+                isFound = true;
+            }
+        });
+
+        if (!isFound) {
+            return res.status(404).json({
+                status: "fail",
+                message: "List not found"
+            });
+        }
+
+        const filePath = `${__dirname}/../db/data.json`;
+        fs.writeFile(filePath, JSON.stringify(shoppingLists, null, 2), err => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({
+                    status: "error",
+                    message: "Error writing file"
+                });
+            }
+
+            res.status(200).json({
+                status: "success",
+                body: JSON.stringify({ newName: newName })
+            });
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "An error occurred"
+        });
+    }
+};

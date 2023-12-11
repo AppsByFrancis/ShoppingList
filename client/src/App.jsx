@@ -7,23 +7,23 @@ export const ShoppingListContext = createContext();
 const App = () => {
   const [shoppingList, setShoppingList] = useState([]);
   useEffect(() => {
-    const getShoppingLists = async() => {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/ShoppingLists'); // Ensure the URL is correct
-            if (response.ok) {
-                const data = await response.json(); // Parse the JSON data
-                setShoppingList(data.data.shoppingLists);
-            } else {
-                console.error('Server responded with an error:', response.status);
+        const getShoppingLists = async() => {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/ShoppingLists'); // Ensure the URL is correct
+                if (response.ok) {
+                    const data = await response.json(); // Parse the JSON data
+                    setShoppingList(data.data.shoppingLists);
+                } else {
+                    console.error('Server responded with an error:', response.status);
+                }
+            } catch (err) {
+                console.error('Failed to fetch data:', err);
             }
-        } catch (err) {
-            console.error('Failed to fetch data:', err);
-        }
-    };
-    
+        };
+        
 
-    getShoppingLists()
-}, []);
+        getShoppingLists()
+    }, []);
 
   
   return(
@@ -32,7 +32,7 @@ const App = () => {
           <div className="app">
             <Routes>
               <Route path="/" element={<Home />} />
-              {shoppingList.map(items => (
+              {shoppingList && shoppingList.map(items => (
                 <Route key={items.id} path={`/list/:${items.id}`} element={
                   <ListDetail items={items} shoppingList={shoppingList} setShoppingList={setShoppingList} route={`/list/:${items.id}`} />
                 } />
