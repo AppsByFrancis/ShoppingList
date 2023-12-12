@@ -6,8 +6,10 @@ import { back } from '../../assets';
 const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
     const [item, setItem] = useState([]);
     const [itemInput, setItemInput] = useState("");
+    const [itemNewName, setItemNewName] = useState("");
     const [nameInput, setNameInput] = useState("");
     const [isEditting, setIsEditting] = useState(false);
+    const [isEdittingItem, setIsEdittingItem] = useState(null);
     
     const locationUrl = useLocation()
     const url = locationUrl.pathname;
@@ -17,25 +19,6 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
 
     useEffect(() => {
         setItem(prev => [...selectedItem.listItems])
-        const getListItem = async() => {
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/shoppingLists/:${urlId}`); 
-                if (response.ok) {
-                    const jsonResponse = await response.json();
-                    if (jsonResponse.status === 'success') {
-                        const listData = JSON.parse(jsonResponse.data);
-                        setItem(listData.listItems);
-                    }
-                } else {
-                    console.error('Server responded with an error:', response.status);
-                }
-            } catch (err) {
-                console.error('Failed to fetch data:', err);
-            }
-        };
-        
-
-        getListItem()
     }, []);
 
     const addItemToList = async (event) => {
@@ -49,9 +32,8 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
             const newItem = {
                 id: item.length,
                 item: itemInput,
+                listId: Number(urlId)
             };
-
-            const assignedPath = Object.assign({locationUrl}, newItem)
             
             await fetch('http://127.0.0.1:8000/items/',
             {
@@ -59,9 +41,7 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify(assignedPath),
-                metadata: "none"
-                
+                body: JSON.stringify(newItem)
             })
             setItem(prevItems => [...prevItems, newItem]);
         }
@@ -71,46 +51,87 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
         setItemInput(event.target.value)
     };
     
-    const removeItem = async(itemId) => {
+    const handleItemNameChange = (event) => {
+        setItemNewName(event.target.value)
+    };
 
-        await fetch(`http://127.0.0.1:8000/items/:${itemId}`, 
-        {
-            method: 'DELETE',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: JSON.stringify(locationUrl)
-          })
-        
-        let newArr = item.filter(i => i.id !== itemId)
-        setItem([...newArr])
-        
-    }
+    
+    const removeItem = async (itemId) => {
+        try {
+            await fetch(`http://127.0.0.1:8000/items/${itemId}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+            });
+    
+            let newArr = item.filter(i => i.id !== itemId);
+            setItem(newArr);
+        } catch (err) {
+            console.error('Error removing item:', err);
+        }
+    };
+    
     
     const handleEdit = async() => {
-        if(isEditting && nameInput){
-             await fetch(`http://127.0.0.1:8000/shoppingLists/:${urlId}`,
+        try {
+            if(isEditting && nameInput){
+                await fetch(`http://127.0.0.1:8000/shoppingLists/:${urlId}`,
+               {
+                   method: 'PATCH',
+                   headers: {
+                       'Content-type' : 'application/json'
+                   },
+                   body: nameInput && JSON.stringify({ name: nameInput })
+               })
+   
+               setShoppingList(prev => {
+                   return prev.map(obj => {
+                       if (obj.id === Number(urlId)) {
+                           return { ...obj, name: nameInput };
+                       }
+                       return obj;
+                   });
+               });
+               setIsEditting(false)
+           } else if(isEditting){
+               setIsEditting(false)
+           } else {
+               setIsEditting(true)
+           }
+        } catch (err) {
+            console.error('Error editting item:', err);
+        }
+    }
+
+    const changeItemName = async(id, event) => {
+        if(itemNewName){
+            event.preventDefault();
+
+            setItem(prev => {
+                return prev.map(obj => {
+                    if (obj.id === id) {
+                        return { ...obj, item: itemNewName };
+                    }
+                    return obj;
+                });
+            });
+            setIsEdittingItem(false)
+            await fetch(`http://127.0.0.1:8000/items/:${id}`,
             {
                 method: 'PATCH',
                 headers: {
                     'Content-type' : 'application/json'
                 },
-                body: nameInput && JSON.stringify({ name: nameInput })
+                body: itemNewName && JSON.stringify({ 
+                    name: itemNewName,
+                    listId: urlId
+                 })
             })
-
-            setShoppingList(prev => {
-                return prev.map(obj => {
-                    if (obj.id === Number(urlId)) {
-                        return { ...obj, name: nameInput };
-                    }
-                    return obj;
-                });
-            });
-            setIsEditting(false)
-        } else if(isEditting){
-            setIsEditting(false)
+        } else if(isEdittingItem){
+            setIsEdittingItem(false)
         } else {
-            setIsEditting(true)
+            setIsEdittingItem(true)
         }
     }
 
@@ -124,7 +145,6 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
             <ul className="detailList">
                 <div className='nameAndInputItem'>
                     <div style={{display: 'flex'}}>
-
                     <button onClick={handleEdit} className='editButton'>{!isEditting ? "Edit" : "Change"}</button>
                     {!isEditting ? <h2>{selectedItem ? selectedItem.name : 'Item not found'}</h2> : <input onChange={handleNameChange} value={nameInput} placeholder="Select a new Name..."/>}
                     </div>
@@ -150,14 +170,44 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                 </div>
                 {item.length === 0 && <h3>Add an item to your shopping list</h3>}
                 <div>
-                    {selectedItem && item.map(el => (
-                    <div className='item-and-button' key={`it-${el.id}`}>
-                        <li className='listItem'>{el.item}</li>
-                        <button className='removeButton2' onClick={() => removeItem(el.id)}>
-                            remove
-                        </button>
+                {selectedItem && item.map(el => (
+                    <div key={`it-${el.id}`}>
+                        { isEdittingItem !== el.id ?
+                            <div className='item-and-button'>
+                                <li className='listItem'>{el.item}</li>
+                                <button className='removeButton2' onClick={() => removeItem(el.id)} style={{marginLeft: "auto", marginRight: "8px"}}>
+                                    remove
+                                </button>
+                                <button className="editButton" onClick={() => {
+                                    setIsEdittingItem(el.id);
+                                }}>edit</button>
+                            </div>
+                            : 
+                                <div key={`it-${el.id}`}>
+                                     <form onSubmit={() => {changeItemName(el.id, event)}} className="form name" >
+                                        <input
+                                            id="searchQueryInput"
+                                            name="searchQueryInput"
+                                            type="text"
+                                            value={itemNewName}
+                                            onChange={handleItemNameChange}
+                                            placeholder="Edit item..."
+                                            className="pr-8"
+                                        />
+                                        <button
+                                            id="searchQuerySubmit"
+                                            className="submitButton"
+                                            type="submit"
+                                            name="searchQuerySubmit"
+                                        >
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                        }
                     </div>
                 ))}
+
                 </div>
             </ul>
         </section>

@@ -4,6 +4,8 @@ const listController = require('../controllers/listController')
 
 const router = express.Router();
 
+router.param('id', listController.checkIdExists)
+
 router
     .route("/")
     .get(listController.getAllShoppingLists)
