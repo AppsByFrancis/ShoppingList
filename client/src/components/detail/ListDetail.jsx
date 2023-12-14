@@ -58,11 +58,12 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
     
     const removeItem = async (itemId) => {
         try {
-            await fetch(`http://127.0.0.1:8000/items/${itemId}`, {
+            await fetch(`http://127.0.0.1:8000/items/:${itemId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({listId: Number(urlId)})
             });
     
             let newArr = item.filter(i => i.id !== itemId);

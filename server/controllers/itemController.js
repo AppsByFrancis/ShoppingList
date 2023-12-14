@@ -52,7 +52,7 @@ exports.editItemName = async (req, res) => {
         const itemId = Number(req.url.match(/\d+/g));
         const listId = Number(req.body.listId);
 
-        console.log(`List ID: ${req.url}, Item ID: ${listId}`); // Debug log
+        console.log(`List ID: ${req.url}, Item ID: ${listId}`);
 
         let itemChanged = false;
 
@@ -60,7 +60,7 @@ exports.editItemName = async (req, res) => {
             if (obj.id === listId) {
                 obj.listItems.forEach(item => {
                     if (item.id === itemId) {
-                        console.log(`Updating item: ${JSON.stringify(item)}`); // Debug log
+                        console.log(`Updating item: ${JSON.stringify(item)}`);
                         item.item = newName;
                         itemChanged = true;
                     }
@@ -73,26 +73,37 @@ exports.editItemName = async (req, res) => {
                 status: "fail",
                 message: "List or item not found"
             });
-        }
+        };
 
         fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(shoppingLists, null, 2), (err) => {
-            // Error handling and response
         });
 
     } catch (err) {
-        // Error handling
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: "An unexpected error occurred"
+        });
     }
 };
 
 
 exports.deleteItem = async (req, res) => {
     try {
-        const urlId = Number(req.params.id.match(/\d+/g));
+        const urlId = req.body.listId;
         const itemId = Number(req.url.match(/\d+/g));
+
         shoppingLists.forEach(obj => {
             if (obj.id === urlId) {
-                obj.listItems = obj.listItems.filter(item => item.id !== itemId);
-            }
+                obj.listItems = obj.listItems.filter(item => item.id !== itemId).map(el => {
+                    if (el.id !== 0 && obj.listItems.length !== 0){
+                        el.id -= 1;
+                        return el;
+                    } else {
+                        return [];
+                    }
+                });
+            };
         });
 
         fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(shoppingLists, null, 2), err => {
