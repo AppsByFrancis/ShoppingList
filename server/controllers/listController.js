@@ -88,14 +88,6 @@ exports.deleteShoppingList = (req, res) => {
         console.log(urlId)
         const listToDelete = Number(urlId.match(/\d+/g));
         const filteredShoppingList = shoppingLists.filter(item => item.id !== listToDelete)
-        // const newShoppingList = filteredShoppingList.map(el => {
-        //     if(el.id !== 0 && filteredShoppingList.length !== 0){
-        //         el.id -= 1;
-        //         return el;
-        //     } else {
-        //         return [];
-        //     }
-        // });
 
         fs.writeFile(`${__dirname}/../db/data.json`, JSON.stringify(filteredShoppingList), err => {
             res.status(202).json({
