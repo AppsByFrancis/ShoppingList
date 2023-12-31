@@ -3,3 +3,18 @@
     max-width: 100%;
     background-color: #87a1ee66;
 }
+
+@media (prefers-color-scheme: dark) {
+    body{
+        color: #E0E1DD;
+    }
+    .home{
+        background-color: #0A192F;
+    }
+
+}
+
+.bckg-dark{
+    background-color: #0A192F;
+    border: solid #112D4E;
+}

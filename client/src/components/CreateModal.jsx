@@ -2,9 +2,10 @@ import './css/modal.css';
 import { useState, useContext, useEffect } from 'react';
 import { CloseButtonContext } from './Navbar.jsx';
 import { ShoppingListContext } from '../App.jsx';
+import { buttons } from '../constants';
 
 
-const CreateModal = () => {
+const CreateModal = ({language}) => {
     const [isCreating, setIsCreating] = useContext(CloseButtonContext);
     const [shoppingList, setShoppingList] = useContext(ShoppingListContext);
     const [listNameInput, setListNameInput] = useState("");
@@ -53,7 +54,7 @@ const CreateModal = () => {
     return(
         <div className='modal' style={{opacity: opacity, top: top}}>
             <button onClick={() => setIsCreating(false)} className='closeModal'>
-                close
+              {language === "english" ? buttons.close.english : buttons.close.czech}
             </button>
             <form onSubmit={createList} id="searchBar" className="searchBar">
               <input
@@ -62,7 +63,7 @@ const CreateModal = () => {
                 type="text"
                 value={listNameInput}
                 onChange={handleInputChangeName}
-                placeholder="Christmas list..."
+                placeholder= {language === "english" ? "Christmas list..." : "Vánoční seznam..."}
                 className="pr-8"
               />
               <button
@@ -71,7 +72,7 @@ const CreateModal = () => {
                 type="submit"
                 name="searchQuerySubmit"
               >
-                Submit
+                {language === "english" ? buttons.submit.english : buttons.submit.czech}
               </button>
           </form>
         </div>

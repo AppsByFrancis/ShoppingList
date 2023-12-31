@@ -2,8 +2,9 @@ import '../css/detail.css';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { back } from '../../assets';
+import { buttons } from '../../constants';
 
-const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
+const ListDetail = ({shoppingList, setShoppingList, language}) => {
     const [item, setItem] = useState([]);
     const [itemInput, setItemInput] = useState("");
     const [itemNewName, setItemNewName] = useState("");
@@ -146,8 +147,8 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
             <ul className="detailList">
                 <div className='nameAndInputItem'>
                     <div style={{display: 'flex'}}>
-                    <button onClick={handleEdit} className='editButton'>{!isEditting ? "Edit" : "Change"}</button>
-                    {!isEditting ? <h2>{selectedItem ? selectedItem.name : 'Item not found'}</h2> : <input onChange={handleNameChange} value={nameInput} placeholder="Select a new Name..."/>}
+                        {!isEditting ? <h2>{selectedItem ? selectedItem.name : 'Item not found'}</h2> : <input onChange={handleNameChange} value={nameInput} placeholder={language === "english" ? "Select a new Name..." : "Zvolte nový název..."}/>}
+                        <button onClick={handleEdit} className='editButton'>{!isEditting ? (language === "english" ? buttons.edit.english : buttons.edit.czech) : (language === "english" ? buttons.confirm.english : buttons.confirm.czech)}</button>
                     </div>
                     <form onSubmit={addItemToList} className="form name" >
                         <input
@@ -156,7 +157,7 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                             type="text"
                             value={itemInput}
                             onChange={handleInputChange}
-                            placeholder="Add an item..."
+                            placeholder={language === "english" ? "Add an item..." : "Přidat novou položku.."}
                             className="pr-8"
                         />
                         <button
@@ -165,7 +166,7 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                             type="submit"
                             name="searchQuerySubmit"
                         >
-                            Submit
+                            {language === "english" ? buttons.submit.english : buttons.submit.czech}
                         </button>
                     </form>
                 </div>
@@ -177,11 +178,13 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                             <div className='item-and-button'>
                                 <li className='listItem'>{el.item}</li>
                                 <button className='removeButton2' onClick={() => removeItem(el.id)} style={{marginLeft: "auto", marginRight: "8px"}}>
-                                    remove
+                                    {language === "english" ? buttons.remove.english : buttons.remove.czech}
                                 </button>
                                 <button className="editButton" onClick={() => {
                                     setIsEdittingItem(el.id);
-                                }}>edit</button>
+                                }}>
+                                    {language === "english" ? buttons.edit.english : buttons.edit.czech}
+                                </button>
                             </div>
                             : 
                                 <div key={`it-${el.id}`}>
@@ -201,7 +204,7 @@ const ListDetail = ({items, shoppingList, setShoppingList, route}) => {
                                             type="submit"
                                             name="searchQuerySubmit"
                                         >
-                                            Submit
+                                            {language === "english" ? buttons.submit.english : buttons.submit.czech}
                                         </button>
                                     </form>
                                 </div>

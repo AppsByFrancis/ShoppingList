@@ -79,3 +79,24 @@
     background-color: rgba(216, 191, 216, 0.4); /* Light purple background */
     border: solid #9370db; /* Darker purple border */
 }
+
+
+@media (prefers-color-scheme: dark) {
+    body{
+        color: #E0E1DD;
+    }
+
+    .red, .blue, .green, .orange, .dark-blue, .teal, .pink, .yellow, .purple{
+        background-color: #0A192F;
+        border: solid #112D4E;
+    }
+
+    .shoppingList{
+        text-decoration: none;
+    }
+}
+
+.bckg-dark{
+    background-color: #0A192F;
+    border: solid #112D4E;
+}

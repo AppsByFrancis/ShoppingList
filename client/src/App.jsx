@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 export const ShoppingListContext = createContext();
 const App = () => {
   const [shoppingList, setShoppingList] = useState([]);
+  const [language, setLanguage] = useState("czech");
+  const [dark, setDark] = useState(false);
+
   useEffect(() => {
         const getShoppingLists = async() => {
             try {
@@ -31,10 +34,10 @@ const App = () => {
         <ShoppingListContext.Provider value={[shoppingList, setShoppingList]}>
           <div className="app">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home language={language} setLanguage={setLanguage} dark={dark} setDark={setDark} />} />
               {shoppingList && shoppingList.map(items => (
                 <Route key={items.id} path={`/list/:${items.id}`} element={
-                  <ListDetail items={items} shoppingList={shoppingList} setShoppingList={setShoppingList} route={`/list/:${items.id}`} />
+                  <ListDetail shoppingList={shoppingList} setShoppingList={setShoppingList} language={language} dark={dark} />
                 } />
               ))}
             </Routes>

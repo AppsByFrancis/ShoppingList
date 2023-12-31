@@ -5,7 +5,8 @@
     position: absolute;
     left: 50%;
     height: 64px;
-    width: 400px;
+    max-width: 400px;
+    min-width: 350px;
     padding: 20px;
     transform: translateX(-50%);
     opacity: 0;
@@ -29,4 +30,20 @@ input{
     border: solid #d2f8fe;
     border-radius: 4px;
     /* background-color: rgba(230, 251, 254, 0.4); */
+}
+
+
+@media (prefers-color-scheme: dark) {
+    body{
+        color: #E0E1DD;
+    }
+    .modal{
+      border: solid #112D4E;
+      background-color: #1A3B6F;
+    }
+    button{
+      background-color: #1D3557;
+      border: solid #2C5282;
+    }
+
 }

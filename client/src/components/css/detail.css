@@ -35,6 +35,7 @@
 
 .nameAndInputItem{
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 32px;
 }
@@ -91,4 +92,25 @@ button{
         align-items: center;
         margin-bottom: 32px;
     }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    body{
+        color: #E0E1DD;
+    }
+    .submitButton, .editButton, .removeButton2, button{
+        background-color: #1D3557;
+        border: solid #2C5282;
+    }
+
+    .detailSection{
+        background-color: #0A192F;
+    }
+
+    .detailList{
+        background-color: #0A192F;
+        border: solid #112D4E;
+    }
+
 }
